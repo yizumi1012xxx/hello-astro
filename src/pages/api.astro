@@ -33,7 +33,7 @@ const json = await response.json();
 const ales: Ale[] = json.data.allAles;
 ---
 
-<Layout title="Welcome to beer list.">
+<Layout title="testing API.">
   <div>{ales.length} beers exists!</div>
   <ul>{ales.map((ale) => <li>{ale.name}</li>)}</ul>
 </Layout>
