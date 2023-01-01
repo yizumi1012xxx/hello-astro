@@ -1,4 +1,6 @@
 ---
+import Layout from "../layouts/Layout.astro";
+
 type Ale = {
   id: string;
   name: string;
@@ -31,4 +33,7 @@ const json = await response.json();
 const ales: Ale[] = json.data.allAles;
 ---
 
-<div>{ales.map((ale) => <ul>{ale.name}</ul>)}</div>
+<Layout title="Welcome to beer list.">
+  <div>{ales.length} beers exists!</div>
+  <ul>{ales.map((ale) => <li>{ale.name}</li>)}</ul>
+</Layout>
