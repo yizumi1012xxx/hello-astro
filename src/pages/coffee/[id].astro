@@ -1,0 +1,46 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { Image } from "@astrojs/image/components";
+
+type Coffee = {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+};
+
+export async function getStaticPaths() {
+  const response = await fetch("https://api.sampleapis.com/coffee/graphql", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      query: `
+          {
+              allHots {
+                  id
+                  title
+                  description
+                  image
+              }
+          }
+          `,
+    }),
+  });
+
+  const json = await response.json();
+  const coffeeList: Coffee[] = json.data.allHots;
+
+  return coffeeList.map((coffee) => ({
+    params: { id: coffee.id },
+    props: coffee,
+  }));
+}
+
+const { title, description, image } = Astro.props;
+---
+
+<Layout title="Coffee detail page.">
+  <p>{title}</p>
+  <p>{description}</p>
+  <Image src={image} alt={title} width={300} height={200} />
+</Layout>
